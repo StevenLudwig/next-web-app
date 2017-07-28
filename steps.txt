@@ -1,0 +1,11 @@
+1. Crear el proyecto con nextjs
+	https://zeit.co/docs/examples/next#setup
+
+2. Create file api.service.js
+
+3. Folder Components
+	AddComputer - name, model, comments, vote, price
+		POST
+
+4. ListComputers
+	ListComputers GET
