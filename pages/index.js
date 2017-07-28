@@ -1,33 +1,25 @@
 import { Component } from 'react';
-import service from '../api.service';
 import AddComputer from '../components/AddComputer';
-import { addComputer } from '../utils/validate.computer.js';
+import service from '../api.service';
 
 
 class Home extends Component {
-	async _onSave(computer) {
-		var errors = addComputer(computer);
-		var create = await service.post('computers', computer);
-		var created = await create.json();
-		console.log(created);
-	};
-
 	render() {
 		return <div>
-			<h3>Hola Nextjs!</h3>
-			<AddComputer onSave={ this._onSave } />
+			<h3>¡Llegó una nueva computadora!</h3>
+			<AddComputer />
 		</div>
 	}
 };
 
 
 Home.getInitialProps = async () => {
-	const data = await service.get('computers');
-	const computers = await data.json();
+	const data = {};
 
-	return {
-		computers: computers
-	};
+	const retrieve_computers = await service.get('computers');
+
+	data.computers = await retrieve_computers.data;
+	return data;
 };
 
 export default Home;

@@ -1,24 +1,30 @@
-import { polyfill } from 'es6-promise';
-polyfill();
-import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 
-const api_uri = 'http://localhost:5005/v2/';
 
-module.exports = (function() {
+const service = (function() {
+	const slash = '/';
+
+	const base = function() {
+		return axios.create({
+			baseURL: 'http://localhost:5005/v2/',
+			timeout: 3600,
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			}
+		});
+	};
+
 	return {
 		get(source) {
-			return fetch(api_uri.concat(source));
+			return base().get(slash.concat(source));
 		},
 
 		post(source, data) {
-			return fetch(api_uri.concat(source), {
-				method: 'POST',
-				body: JSON.stringify(data),
-				mode: 'no-cors',
-				headers: new Headers({
-					'Content-Type': 'application/json'
-				})
-			});
+			return base().post(slash.concat(source), data);
 		}
 	};
 })();
+
+
+module.exports = service;

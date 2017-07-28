@@ -1,5 +1,9 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { addComputer } from '../utils/validate.computer.js';
+import service from '../api.service';
+import Messages from './Messages';
+import update from 'react-addons-update';
 
 
 class AddComputer extends Component {
@@ -10,28 +14,59 @@ class AddComputer extends Component {
 		this._onSubmit = this._onSubmit.bind(this);
 
 		this.state = {
-			name: props.name,
-			model: props.model,
-			serie: props.serie,
-			price: props.price
+			computer: {
+				name: props.computer.name,
+				model: props.computer.model,
+				serie: props.computer.serie,
+				price: props.computer.price,
+			},
+			errors: []
 		};
 	};
 
 	_onChange(e) {
 		const target = e.currentTarget;
-		this.setState({ [target.name]: target.value });
+		this.setState({
+			computer: update(this.state.computer, {
+				[target.name]: { $set: target.value }
+			})
+		});
 	};
 
-	_onSubmit(e) {
+	async _onSubmit(e) {
 		e.preventDefault();
-		this.props.onSave(this.state);
+
+		const { computer } = this.state;
+		const errors = addComputer(computer);
+
+		if (errors.length) {
+			this.setState({ errors });
+			return;
+		};
+
+		const save = await service.post('computers', computer);
+		if (save.status == 201) {
+			const saved = save.data;
+			const message = `La ${ saved.name } ahora existe en inventario`;
+
+			var clean_computer_attrs = {};
+
+			Object.keys(computer).map(k => {
+				clean_computer_attrs[k] = '';
+			});
+
+			this.setState({ computer: clean_computer_attrs, errors: [message] });
+		};
 	};
 
 	render() {
-		const { name, model, serie, price } = this.state;
+		const { name, model, serie, price } = this.state.computer;
 
 		return (
 			<form onSubmit={ this._onSubmit }>
+				<div>
+					<Messages items={ this.state.errors } />
+				</div>
 				<div>
 					<label htmlFor="name">Nombre:</label>
 					<input type="text" name="name" value={ name } onChange={ this._onChange } />
@@ -67,21 +102,25 @@ class AddComputer extends Component {
 };
 
 AddComputer.defaultProps = {
-	name: "",
-	model: "",
-	serie: "",
-	price: ""
+	computer: {
+		name: "",
+		model: "",
+		serie: "",
+		price: ""
+	},
+	errors: []
 };
 
 AddComputer.propTypes = {
-	name: PropTypes.string,
-	model: PropTypes.string,
-	serie: PropTypes.string,
-	price: PropTypes.oneOfType([
-		PropTypes.number,
-		PropTypes.string
-	]),
-	onSave: PropTypes.func
+	computer: PropTypes.shape({
+		name: PropTypes.string,
+		model: PropTypes.string,
+		serie: PropTypes.string,
+		price: PropTypes.oneOfType([
+			PropTypes.number,
+			PropTypes.string
+		]),
+	})
 };
 
 export default AddComputer;
