@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import AddComputer from '../components/AddComputer';
+import AddComputer from 'components/AddComputer';
 
 
 class Add extends Component {

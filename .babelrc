@@ -1,0 +1,17 @@
+//https://www.fullstackreact.com/articles/what-are-babel-plugins-and-presets/
+
+{
+	"presets":["next/babel"],
+  "plugins": [
+    ["module-resolver", {
+			"root": [".", "./components"],
+			"extensions": [".js"],
+			"cwd": "babelrc",
+      "alias": {
+				"api.service": "api.service",
+				"components": "components",
+				"layouts": "layouts"
+			}
+    }]
+  ]
+}

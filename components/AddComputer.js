@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { addComputer } from '../utils/validate.computer.js';
-import service from '../api.service';
+import service from 'api.service';
 import Messages from './Messages';
 import update from 'react-addons-update';
 

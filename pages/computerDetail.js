@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import service from '../api.service';
+import service from 'api.service';
 
 
 class ComputerDetail extends Component {
@@ -18,7 +18,9 @@ class ComputerDetail extends Component {
 				})
 			}
 				<div>
-					<textarea name="" id="" cols="30" rows="10"></textarea>
+					<input type="text" name="name" placeholder="Nombre" />
+					<input type="text" name="email" placeholder="Correo electrónico" />
+					<textarea name="" name="review" id="" cols="30" rows="10" maxLength="100"></textarea>
 					<div>
 						<button>Enviar mi comentario</button>
 						<button>Me gusta</button>

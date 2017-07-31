@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 
 class ListComputers extends Component {
 	render() {
@@ -11,7 +13,9 @@ class ListComputers extends Component {
 							<div>
 								<div style={{ display: 'inline' }}>{ computer.name }</div>
 								<div style={{ display: 'inline', marginLeft: '40%' }}>
-									<a href={ "/computers/" + computer._id }>Ver detalle</a>
+									<a href={ "/computers/" + computer._id }>Ver detalle</a> /
+									<a href="">Editar</a> /
+									<a href="">Eliminar</a>
 								</div>
 							</div>
 							<hr/>
@@ -22,6 +26,10 @@ class ListComputers extends Component {
 			</div>
 		)
 	}
+};
+
+ListComputers.propTypes = {
+	computers: PropTypes.array
 };
 
 export default ListComputers;
