@@ -22,6 +22,14 @@ const service = (function() {
 
 		post(source, data) {
 			return base().post(slash.concat(source), data);
+		},
+
+		'delete': (source) => {
+			return base().delete(slash.concat(source));
+		},
+
+		put(source, data) {
+			return base().put(slash.concat(source), data);
 		}
 	};
 })();

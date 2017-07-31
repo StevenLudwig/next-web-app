@@ -4,6 +4,7 @@ import { addComputer } from '../utils/validate.computer.js';
 import service from 'api.service';
 import Messages from './Messages';
 import update from 'react-addons-update';
+import { Form, FormControl, FormGroup, ControlLabel, Button, Alert } from  'react-bootstrap';
 
 
 class AddComputer extends Component {
@@ -67,40 +68,40 @@ class AddComputer extends Component {
 		const { name, model, serie, price } = this.state.computer;
 
 		return (
-			<form onSubmit={ this._onSubmit }>
-				<div>
-					<Messages items={ this.state.errors } />
-				</div>
-				<div>
-					<label htmlFor="name">Nombre:</label>
-					<input type="text" name="name" value={ name } onChange={ this._onChange } />
-				</div>
+			<Form onSubmit={ this._onSubmit }>
+				<FormGroup>
+				{
+					this.state.errors.length ? <Alert bsStyle="danger">
+						<Messages items={ this.state.errors } />
+					</Alert> : null
+				}
 
-				<br />
+				</FormGroup>
 
-				<div>
-					<label htmlFor="model">Modelo:</label>
-					<input type="text" name="model" value={ model } onChange={ this._onChange } />
-				</div>
+				<FormGroup>
+					<ControlLabel>Nombre:</ControlLabel>
+					<FormControl name="name" value={ name } onChange={ this._onChange } />
+				</FormGroup>
 
-				<br />
+				<FormGroup>
+					<ControlLabel>Modelo:</ControlLabel>
+					<FormControl name="model" value={ model } onChange={ this._onChange } />
+				</FormGroup>
 
-				<div>
-					<label htmlFor="serie">Serie:</label>
-					<input type="text" name="serie" value={ serie } onChange={ this._onChange } />
-				</div>
+				<FormGroup>
+					<ControlLabel>Serie:</ControlLabel>
+					<FormControl name="serie" value={ serie } onChange={ this._onChange } />
+				</FormGroup>
 
-				<br />
+				<FormGroup>
+					<ControlLabel>Precio:</ControlLabel>
+					<FormControl name="price" value={ price } onChange={ this._onChange } />
+				</FormGroup>
 
-				<div>
-					<label htmlFor="price">Precio:</label>
-					<input type="text" name="price" value={ price } onChange={ this._onChange } />
-				</div>
-
-				<div>
-					<button type="submit">Guardar</button>
-				</div>
-			</form>
+				<FormGroup>
+					<Button type="submit" bsStyle="danger">Guardar</Button>
+				</FormGroup>
+			</Form>
 		)
 	};
 };

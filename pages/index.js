@@ -2,19 +2,20 @@ import { Component } from 'react';
 import ListComputers from 'components/ListComputers';
 import service from 'api.service';
 import MainLayout from 'layouts/Main';
+import { Button } from 'react-bootstrap';
 
 
 class Home extends Component {
 	render() {
 		return (
 			<MainLayout>
-				<div>
-					<h3>Computadoras en inventario</h3>
-					<ListComputers computers={ this.props.computers } />
-					<button onClick={ () => {
-						return window.location.href = "/add";
-					} }>Agregar uno nuevo</button>
-				</div>
+				<h3>Computadoras en inventario</h3>
+
+				<ListComputers computers={ this.props.computers } />
+
+				<Button bsStyle="success" onClick={ () => {
+					return window.location.href = "/add";
+				} }>Agregar nuevo</Button>
 			</MainLayout>
 		)
 	}
