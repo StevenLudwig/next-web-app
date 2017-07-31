@@ -55,7 +55,11 @@ class AddComputer extends Component {
 				clean_computer_attrs[k] = '';
 			});
 
-			this.setState({ computer: clean_computer_attrs, errors: [message] });
+			this.setState({ computer: clean_computer_attrs, errors: [message] }, () => {
+				setTimeout(() => {
+					window.location.href = this.props.redirect;
+				}, 3000);
+			});
 		};
 	};
 

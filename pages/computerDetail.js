@@ -4,13 +4,15 @@ import service from '../api.service';
 
 class ComputerDetail extends Component {
 	render() {
+		const { computer } = this.props;
+
 		return (
 			<div>
 			{
-				Object.keys(this.props.computer).map(k => {
+				Object.keys(computer).map((k, i) => {
 					return (
-						<div>
-							{ `${ k }: ${ this.props.computer[k] }` }
+						<div key={ i }>
+							{ `${ k }: ${ computer[k] }` }
 						</div>
 					)
 				})

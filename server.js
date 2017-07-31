@@ -16,6 +16,10 @@ app.prepare().then(() => {
 		return app.render(req, res, '/computerDetail', req.query);
 	});
 
+	server.get('/add', (req, res) => {
+		return app.render(req, res, '/addComputer', req.query);
+	});
+
 	server.get('*', (req, res) => {
 		return handle(req, res);
 	});
