@@ -122,7 +122,7 @@ class ComputerDetail extends Component {
 ComputerDetail.getInitialProps = async ({ req }) => {
 	const { computer_id } = req.params;
 	const res = await service.get(`computers/${ computer_id }`);
-	const computer = await res.data;
+	const computer = await res.json();
 
 	return {
 		computer: computer

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'react-bootstrap';
 import service from 'api.service';
 
-const ButtonRemove = ({ _id }) => {
+const ButtonRemove = ({ _id, onRemoved }) => {
 	const _onRemove = async () => {
 		const removed = await service.delete(`computers/${ _id }`);
+		onRemoved(removed.status == 200);
 	};
 
 	return <Button bsStyle="danger" onClick={ _onRemove }>
@@ -15,12 +16,29 @@ const ButtonRemove = ({ _id }) => {
 
 
 class ListComputers extends Component {
+	constructor(props) {
+		super(props);
+
+		this._onRemoved = this._onRemoved.bind(this);
+
+		this.state = {
+			computers: props.computers
+		};
+	};
+
+	async _onRemoved(removed) {
+		if (removed) {
+			const computers = await service.get("computers");
+			this.setState({ computers: await computers.json() });
+		};
+	};
+
 	render() {
 		return (
 			<Row>
 				<Col xs={ 12 }>
 				{
-					this.props.computers.map((computer, i) => {
+					this.state.computers.map((computer, i) => {
 						return (
 							<div key={ i }>
 								<Row>
@@ -40,7 +58,7 @@ class ListComputers extends Component {
 										</Button>
 									</Col>
 									<Col xs={ 2 } lg={ 2 }>
-										<ButtonRemove { ...computer } />
+										<ButtonRemove { ...computer } onRemoved={ this._onRemoved } />
 									</Col>
 								</Row>
 								<hr />

@@ -1,35 +1,45 @@
-import axios from 'axios';
+import 'isomorphic-unfetch';
 
 
 const service = (function() {
-	const slash = '/';
+	const uri = 'http://localhost:5005/';
+	const version = 'v2';
 
-	const base = function() {
-		return axios.create({
-			baseURL: 'http://localhost:5005/v2/',
-			timeout: 3600,
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			}
-		});
+	const base = function(resource) {
+		return uri + version + '/' + resource;
 	};
 
 	return {
 		get(source) {
-			return base().get(slash.concat(source));
+			return fetch(base(source));
 		},
 
 		post(source, data) {
-			return base().post(slash.concat(source), data);
+			return fetch(base(source), {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
 		},
 
 		'delete': (source) => {
-			return base().delete(slash.concat(source));
+			return fetch(base(source), {
+				method: 'DELETE'
+			});
 		},
 
 		put(source, data) {
-			return base().put(slash.concat(source), data);
+			return fetch(base(source), {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
 		}
 	};
 })();

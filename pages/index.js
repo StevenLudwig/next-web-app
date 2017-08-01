@@ -26,7 +26,7 @@ Home.getInitialProps = async () => {
 	const data = {};
 
 	const retrieve_computers = await service.get('computers');
-	data.computers = await retrieve_computers.data;
+	data.computers = await retrieve_computers.json();
 
 	return data;
 };
